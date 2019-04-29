@@ -1,31 +1,28 @@
 var side = 25;
 var xotArr = []; //խոտերի զանգված
 var eatArr = []; //խոտակերների զանգված
-var gishArr = []
-var vorsArr = []
-var virArr = []
 
 
 var matrix = [
-    [0, 1, 0, 2, 2, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1],
-    [0, 1, 1, 2, 2, 2, 0, 0, 1, 2, 0, 1, 1, 1, 1, 1, 1],
-    [0, 1, 0, 2, 3, 1, 0, 3, 1, 4, 1, 1, 1, 1, 1, 1, 1],
-    [0, 1, 0, 5, 2, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1],
-    [0, 1, 4, 0, 0, 1, 0, 2, 1, 0, 0, 1, 1, 1, 2, 1, 1],
-    [0, 1, 0, 0, 0, 1, 2, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1],
-    [0, 0, 3, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1],
-    [0, 0, 0, 0, 0, 1, 0, 5, 1, 3, 2, 1, 1, 1, 2, 1, 1],
-    [0, 0, 0, 0, 2, 1, 0, 0, 1, 2, 0, 1, 1, 1, 1, 1, 1],
-    [0, 0, 0, 0, 4, 1, 0, 0, 1, 0, 4, 1, 1, 1, 1, 1, 1],
-    [2, 0, 0, 0, 0, 1, 0, 3, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-    [2, 3, 0, 0, 0, 1, 0, 1, 1, 2, 2, 1, 1, 1, 1, 2, 3],
-    [1, 1, 1, 1, 0, 1, 0, 1, 2, 2, 2, 3, 1, 1, 1, 3, 2],
+    [0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1],
+    [0, 1, 1, 0, 0, 2, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1],
+    [0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1],
+    [0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1],
+    [0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1],
+    [0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1],
+    [0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1],
+    [0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1],
+    [0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1],
+    [0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1],
+    [2, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [2, 0, 0, 0, 0, 1, 0, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 0, 1, 0, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1],
 ]
 
 
 function setup() {
     noStroke();
-    frameRate(2);
+    frameRate(3);
     createCanvas(matrix[0].length * side, matrix.length * side); //կտավի չափերը դնել մատրիցայի չափերին համապատասխան
     background('#acacac');
 
@@ -34,23 +31,11 @@ function setup() {
     for (var y = 0; y < matrix.length; y++) {
         for (var x = 0; x < matrix[y].length; x++) {
             if (matrix[y][x] == 2) {
-                var eatgrass = new Eatgrass(x, y);
+                var eatgrass = new Eatgrass(x, y, 2);
                 eatArr.push(eatgrass);
             } else if (matrix[y][x] == 1) {
-                var grass = new Grass(x, y);
+                var grass = new Grass(x, y, 1);
                 xotArr.push(grass);
-            }
-            else if (matrix[y][x] == 3) {
-                var gishatich = new Eatgrasseater(x, y);
-                gishArr.push(gishatich);
-            }
-            else if (matrix[y][x] == 4) {
-                var vorsord = new Hunter(x, y);
-                vorsArr.push(vorsord);
-            }
-            else if (matrix[y][x] == 5) {
-                var virus = new Virus(x, y);
-                virArr.push(virus);
             }
         }
     }
@@ -74,18 +59,6 @@ function draw() {
                 fill('#acacac');
                 rect(j * side, i * side, side, side);
             }
-            else if (matrix[i][j] == 3) {
-                fill('red');
-                rect(j * side, i * side, side, side);
-            }
-            else if (matrix[i][j] == 4) {
-                fill('blue');
-                rect(j * side, i * side, side, side);
-            }
-            else if (matrix[i][j] == 5) {
-                fill('yellow');
-                rect(j * side, i * side, side, side);
-            }
         }
     }
 
@@ -99,14 +72,4 @@ function draw() {
     for (var i in eatArr) {
         eatArr[i].eat();
     }
-    for (var i in gishArr) {
-        gishArr[i].eat();
-    }
-    for (var i in vorsArr) {
-        vorsArr[i].eat();
-    }
-    for (var i in virArr) {
-        virArr[i].eat();
-    }
-    
 }
